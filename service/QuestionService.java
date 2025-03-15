@@ -59,6 +59,9 @@ public class QuestionService {
 
     public ResponseEntity<String> updateQuestion(Question question) {
         try {
+            if (!questionDao.existsById(question.getId())) {
+                return new ResponseEntity<>("This Question:" + question.getId() + "is not available ", HttpStatus.NOT_FOUND);
+            }
             questionDao.save(question);
             return new ResponseEntity<String>("Updated", HttpStatus.OK);
         } catch (Exception e) {
